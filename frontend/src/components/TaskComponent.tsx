@@ -40,7 +40,7 @@ export function TaskComponent() {
         setTasks(loadedTasks);
       })
       .catch(() => {
-        setError(t("tasks.loadError"));
+        setError("tasks.loadError");
       })
       .finally(() => {
         setLoading(false);
@@ -111,7 +111,7 @@ export function TaskComponent() {
 
       {error && (
         <p role="alert" className="mb-4 text-sm text-red-500">
-          {error}
+          {t(error)}
         </p>
       )}
 
