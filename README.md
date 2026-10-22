@@ -7,7 +7,7 @@ Aplicación web para la gestión de tareas To-Do List
 ## Configuración del proyecto
 Para ejecutar el proyecto localmente, es necesario configurar las variables de entorno del frontend y del backend.
 
-### 1.frontend:
+### 1. Frontend:
 
 Dentro de la carpeta `frontend`, crea un archivo llamado `.env` con el siguiente contenido:
 
@@ -15,7 +15,7 @@ Dentro de la carpeta `frontend`, crea un archivo llamado `.env` con el siguiente
 VITE_API_URL=http://localhost:8080/api
 ```
 
-### 2. Configuración del backend
+### 2. Backend
 
 Dentro de la carpeta `backend`, crea un archivo llamado `.env` con las siguientes variables:
 
