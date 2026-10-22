@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
 import { Plus, ListTodo } from "lucide-react";
-import { api } from "../api/axios";
-
 import { TaskCard } from "./TaskCard";
 import { TaskModal, type TaskFormData } from "./TaskModal";
 import type { Task } from "../types/task";
 import { TaskInfoModal } from "./TaskInfoModal";
 import { DeleteConfirmModal } from "./DeleteConfirmModal";
 import { useTranslation } from "react-i18next";
-
+import { taskService } from "../services/taskService";
 export function TaskComponent() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
@@ -19,15 +17,12 @@ export function TaskComponent() {
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
+
   const { t } = useTranslation();
-  async function requestTasks() {
-    const response = await api.get<Task[]>("/tasks");
-    return response.data;
-  }
 
   async function loadTasks() {
     try {
-      const loadedTasks = await requestTasks();
+      const loadedTasks = await taskService.getAll();
       setError("");
       setTasks(loadedTasks);
     } catch {
@@ -38,7 +33,8 @@ export function TaskComponent() {
   }
 
   useEffect(() => {
-    void requestTasks()
+    void taskService
+      .getAll()
       .then((loadedTasks) => {
         setError("");
         setTasks(loadedTasks);
@@ -62,15 +58,10 @@ export function TaskComponent() {
   }
 
   async function saveTask(data: TaskFormData) {
-    const payload = {
-      ...data,
-      dueDate: data.dueDate || null,
-    };
-
     if (selectedTask) {
-      await api.put(`/tasks/${selectedTask.id}`, payload);
+      await taskService.update(selectedTask.id, data);
     } else {
-      await api.post("/tasks", payload);
+      await taskService.create(data);
     }
 
     setIsModalOpen(false);
@@ -86,7 +77,7 @@ export function TaskComponent() {
     setDeleteError("");
 
     try {
-      await api.delete(`/tasks/${taskId}`);
+      await taskService.remove(taskId);
 
       setTasks((currentTasks) =>
         currentTasks.filter((task) => task.id !== taskId),

@@ -3,8 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { AxiosError } from "axios";
 import { UserPlus } from "lucide-react";
-import { api } from "../api/axios";
-
+import { authService } from "../services/authService";
 export function RegisterPage() {
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -41,10 +40,10 @@ export function RegisterPage() {
     setLoading(true);
 
     try {
-      await api.post("/auth/register", {
-        name: form.name.trim(),
-        lastName: form.lastName.trim(),
-        email: form.email.trim(),
+      await authService.register({
+        name: form.name,
+        lastName: form.lastName,
+        email: form.email,
         password: form.password,
       });
 

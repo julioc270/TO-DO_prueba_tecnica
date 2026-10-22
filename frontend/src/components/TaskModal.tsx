@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type SubmitEvent } from "react";
 import { X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import type { Task, TaskPriority, TaskStatus } from "../types/task";
@@ -36,7 +36,7 @@ export function TaskModal({ task, onClose, onSave }: Props) {
     dialogRef.current?.showModal();
   }, []);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
     setSaving(true);
     setError("");

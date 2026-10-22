@@ -1,25 +1,26 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { api } from "../api/axios";
+import { authService } from "../services/authService";
 import { AuthContext } from "./AuthContext";
 
-import type { User, LoginRequest, AuthResponse } from "../types/auth";
+import type { User, LoginRequest } from "../types/auth";
 
 export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Recuperar sesión al iniciar la aplicación
   useEffect(() => {
     let active = true;
 
-    api
-      .get<User>("/users/me")
-      .then((response) => {
-        if (active) setUser(response.data);
+    authService
+      .getCurrentUser()
+      .then((userData) => {
+        if (active) setUser(userData);
       })
       .catch(() => {
-        localStorage.removeItem("auth-token");
-        if (active) setUser(null);
+        if (active) {
+          localStorage.removeItem("auth-token");
+          setUser(null);
+        }
       })
       .finally(() => {
         if (active) setLoading(false);
@@ -30,15 +31,13 @@ export function AuthProvider({ children }: Readonly<{ children: ReactNode }>) {
     };
   }, []);
 
-  // Iniciar sesión
   async function login(credentials: LoginRequest) {
-    const response = await api.post<AuthResponse>("/auth/login", credentials);
+    const response = await authService.login(credentials);
 
-    localStorage.setItem("auth-token", response.data.token);
-    setUser(response.data.user);
+    localStorage.setItem("auth-token", response.token);
+    setUser(response.user);
   }
 
-  // Cerrar sesión
   function logout() {
     localStorage.removeItem("auth-token");
     setUser(null);
