@@ -1,11 +1,13 @@
-import { useState, type FormEvent } from "react";
+import { useState, type SubmitEvent } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import axios from "axios";
 
 import { useAuth } from "../hooks/useAuth";
 
 export function LoginPage() {
   const { login, isAuthenticated, loading } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -13,7 +15,7 @@ export function LoginPage() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setError("");
@@ -21,12 +23,12 @@ export function LoginPage() {
 
     try {
       await login({ email, password });
-      navigate("/tasks", { replace: true });
+      await navigate("/tasks", { replace: true });
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message ?? "No se pudo iniciar sesión.");
+        setError(err.response?.data?.message ?? t("login.loginError"));
       } else {
-        setError("Ocurrió un error inesperado.");
+        setError(t("login.unexpectedError"));
       }
     } finally {
       setSubmitting(false);
@@ -45,16 +47,18 @@ export function LoginPage() {
         onSubmit={handleSubmit}
         className="w-full max-w-md space-y-5 rounded-xl border border-app-border bg-app-surface p-8"
       >
-        <h1 className="text-2xl font-bold text-app-text">Iniciar sesión</h1>
+        <h1 className="text-2xl font-bold text-app-text">{t("login.title")}</h1>
 
         <div>
           <label htmlFor="email" className="mb-2 block text-sm text-app-text">
-            Correo electrónico
+            {t("login.email")}
           </label>
+
           <input
             id="email"
             type="email"
             required
+            autoComplete="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
             className="w-full rounded-lg border border-app-border bg-app-bg p-3 text-app-text"
@@ -66,12 +70,14 @@ export function LoginPage() {
             htmlFor="password"
             className="mb-2 block text-sm text-app-text"
           >
-            Contraseña
+            {t("login.password")}
           </label>
+
           <input
             id="password"
             type="password"
             required
+            autoComplete="current-password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
             className="w-full rounded-lg border border-app-border bg-app-bg p-3 text-app-text"
@@ -89,13 +95,13 @@ export function LoginPage() {
           disabled={submitting}
           className="w-full rounded-lg bg-app-primary p-3 font-semibold text-white hover:bg-app-primary-hover disabled:opacity-50"
         >
-          {submitting ? "Ingresando..." : "Iniciar sesión"}
+          {submitting ? t("login.loading") : t("login.submit")}
         </button>
 
         <p className="text-center text-sm text-app-muted">
-          ¿No tienes cuenta?{" "}
+          {t("login.noAccount")}{" "}
           <Link to="/register" className="text-app-primary hover:underline">
-            Regístrate
+            {t("login.register")}
           </Link>
         </p>
       </form>

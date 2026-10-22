@@ -1,6 +1,6 @@
+import { useTranslation } from "react-i18next";
 import type { Task } from "../types/task";
-import { Card } from "./card";
-
+import { Card } from "./Card";
 type Props = Readonly<{
   tasks: Task[];
   onView: (task: Task) => void;
@@ -9,11 +9,10 @@ type Props = Readonly<{
 }>;
 
 export function TaskCard({ tasks, onView, onEdit, onDelete }: Props) {
+  const { t } = useTranslation();
   if (tasks.length === 0) {
     return (
-      <p className="py-10 text-center text-app-muted">
-        Todavía no tienes tareas registradas.
-      </p>
+      <p className="py-10 text-center text-app-muted">{t("tasks.empty")}</p>
     );
   }
 

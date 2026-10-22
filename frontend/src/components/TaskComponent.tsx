@@ -7,6 +7,8 @@ import { TaskModal, type TaskFormData } from "./TaskModal";
 import type { Task } from "../types/task";
 import { TaskInfoModal } from "./TaskInfoModal";
 import { DeleteConfirmModal } from "./DeleteConfirmModal";
+import { useTranslation } from "react-i18next";
+
 export function TaskComponent() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
@@ -17,6 +19,7 @@ export function TaskComponent() {
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   const [deleting, setDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState("");
+  const { t } = useTranslation();
   async function requestTasks() {
     const response = await api.get<Task[]>("/tasks");
     return response.data;
@@ -28,7 +31,7 @@ export function TaskComponent() {
       setError("");
       setTasks(loadedTasks);
     } catch {
-      setError("No se pudieron cargar las tareas.");
+      setError(t("tasks.loadError"));
     } finally {
       setLoading(false);
     }
@@ -41,7 +44,7 @@ export function TaskComponent() {
         setTasks(loadedTasks);
       })
       .catch(() => {
-        setError("No se pudieron cargar las tareas.");
+        setError(t("tasks.loadError"));
       })
       .finally(() => {
         setLoading(false);
@@ -91,7 +94,7 @@ export function TaskComponent() {
 
       setTaskToDelete(null);
     } catch {
-      setDeleteError("No se pudo eliminar la tarea. Inténtalo nuevamente.");
+      setError("tasks.loadError");
     } finally {
       setDeleting(false);
     }
@@ -102,7 +105,7 @@ export function TaskComponent() {
       <div className="mb-6 flex items-center justify-between gap-4">
         <h2 className="flex items-center gap-2 text-xl font-semibold text-app-text">
           <ListTodo size={22} />
-          Lista de tareas
+          {t("app.taskList")}
         </h2>
 
         <button
@@ -111,7 +114,7 @@ export function TaskComponent() {
           className="flex items-center gap-2 rounded-lg bg-app-primary px-4 py-2 text-white hover:bg-app-primary-hover"
         >
           <Plus size={18} />
-          Nueva tarea
+          {t("tasks.new")}
         </button>
       </div>
 
@@ -122,11 +125,14 @@ export function TaskComponent() {
       )}
 
       {loading ? (
-        <p className="py-10 text-center text-app-muted">Cargando tareas...</p>
+        <p className="py-10 text-center text-app-muted">{t("tasks.loading")}</p>
       ) : (
         <TaskCard
           tasks={tasks}
-          onView={setViewingTask}
+          onView={(task) => {
+            console.log("Tarea seleccionada:", task);
+            setViewingTask(task);
+          }}
           onEdit={openEditModal}
           onDelete={(id) => {
             const task = tasks.find((item) => item.id === id);

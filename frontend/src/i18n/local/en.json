@@ -1,0 +1,87 @@
+{
+  "app": {
+    "name": "To-Do App",
+    "myTasks": "My Tasks",
+    "subtitle": "Manage your tasks and stay organized.",
+    "taskList": "Task List"
+  },
+  "header": {
+    "language": "Language",
+    "theme": "Theme",
+    "logout": "Log out"
+  },
+  "tasks": {
+    "new": "New Task",
+    "edit": "Edit Task",
+    "title": "Title",
+    "description": "Description",
+    "dueDate": "Due Date",
+    "createdAt": "Created At",
+    "priority": "Priority",
+    "status": "Status",
+    "noDescription": "No description",
+    "noDueDate": "No due date",
+    "empty": "You don't have any tasks yet.",
+    "loading": "Loading tasks...",
+    "loadError": "Could not load tasks.",
+    "viewDetails": "View details for {{title}}",
+    "editNamed": "Edit {{title}}",
+    "deleteNamed": "Delete {{title}}",
+    "priorityValues": {
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High"
+    },
+    "statusValues": {
+      "PENDING": "Pending",
+      "COMPLETED": "Completed"
+    }
+  },
+  "modal": {
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "close": "Close",
+    "deleteTitle": "Delete task?",
+    "deleteDescription": "Are you sure you want to delete {{title}}? This action cannot be undone.",
+    "delete": "Delete Task",
+    "deleting": "Deleting..."
+  },
+  "errors": {
+    "delete": "Could not delete the task. Please try again.",
+    "unauthorized": "Your session has expired. Please log in again.",
+    "forbidden": "You don't have permission to delete this task.",
+    "notFound": "This task no longer exists.",
+    "server": "A server error occurred.",
+    "connection": "Could not connect to the server.",
+    "unexpected": "An unexpected error occurred.",
+    "saveError": "Could not save the task."
+  },
+  "register": {
+    "title": "Create account",
+    "subtitle": "Sign up to start organizing your tasks",
+    "name": "First name",
+    "lastName": "Last name",
+    "email": "Email address",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "submit": "Create account",
+    "loading": "Creating account...",
+    "hasAccount": "Already have an account?",
+    "login": "Log in",
+    "passwordMismatch": "Passwords do not match.",
+    "emailExists": "This email address is already registered.",
+    "error": "Could not create your account. Please try again."
+  },
+  "login": {
+    "title": "Log in",
+    "email": "Email address",
+    "password": "Password",
+    "submit": "Log in",
+    "loading": "Logging in...",
+    "noAccount": "Don't have an account?",
+    "register": "Sign up",
+    "loginError": "Could not log in. Please check your credentials.",
+    "unexpectedError": "An unexpected error occurred."
+  }
+}

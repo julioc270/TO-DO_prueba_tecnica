@@ -1,6 +1,5 @@
 import { Header } from "../components/Header";
 import { TaskComponent } from "../components/TaskComponent";
-
 export function TasksPage() {
   return (
     <div className="min-h-screen bg-app-bg">
